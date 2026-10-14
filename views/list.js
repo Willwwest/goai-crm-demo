@@ -125,7 +125,7 @@ export function RecordList({ kind, query }) {
     </div>
     <div class="mobile-list-controls">
       <label>View<select class="input" aria-label=${`${def.label} view`} value=${view.key} onChange=${(e) => switchView(views.find((v) => v.key === e.target.value))}>
-        ${views.map((v) => html`<option value=${v.key}>${v.label}${counts[v.key] != null ? ` (${fmtCount(counts[v.key])})` : ''}</option>`)}
+        ${views.map((v) => html`<option value=${v.key}>${v.key === 'purchased' ? 'Purchased' : v.key === 'connections' ? 'Connections' : v.label}</option>`)}
       </select></label>
       <label>Sort by<select class="input" aria-label="Sort records by" value=${`${sort.key}:${sort.dir}`} onChange=${(e) => {const [key,dir]=e.target.value.split(':');setSort({key,dir});}}>
         ${columns.filter((c) => c.sort).map((c) => ['desc','asc'].map((dir) => html`<option value=${`${c.sort}:${dir}`}>${c.label} ${dir === 'desc' ? '↓' : '↑'}</option>`))}
