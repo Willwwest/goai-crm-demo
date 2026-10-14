@@ -1,0 +1,92 @@
+/* Go.AI brand tokens. Colors from the Go.AI media and brand kit: accent purple
+   #675DFF and cream #F5F0EA. Change these to rebrand the whole app. */
+:root {
+  --brand-accent: #675dff;
+  --brand-accent-strong: #5045e6;
+  --brand-accent-soft: #f0eeff;
+  --brand-cream: #f5f0ea;
+  --brand-ink: #211f2a;
+  --brand-nav: #171620;
+  --brand-nav-hover: #252231;
+  --brand-nav-active: #2f2a61;
+  --brand-nav-ink: #f5f0ea;
+  --brand-nav-muted: #9692a6;
+
+  --bg: #f8f5f2;
+  --surface: #ffffff;
+  --surface-2: #f5f0ea;
+  --ink: #211f2a;
+  --muted: #736f7d;
+  --faint: #a29dab;
+  --line: #e8e2dd;
+  --line-strong: #d9d2d2;
+  --danger: #c2413b;
+  --danger-soft: #fbeceb;
+  --ok: #2f9e44;
+  --warn: #b7791f;
+  --shadow: 0 1px 2px rgb(33 31 42 / 6%), 0 4px 16px rgb(33 31 42 / 6%);
+  --radius: 10px;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --brand-accent-soft: #2a2650;
+    --bg: #141320;
+    --surface: #1d1b29;
+    --surface-2: #252231;
+    --ink: #f1ede7;
+    --muted: #b1acbd;
+    --faint: #7f7a8e;
+    --line: #2f2c3b;
+    --line-strong: #403b50;
+    --danger: #f07a73;
+    --danger-soft: #3a1f25;
+    --ok: #5fcf7a;
+    --warn: #e5b452;
+    --shadow: 0 1px 2px rgb(0 0 0 / 30%), 0 6px 20px rgb(0 0 0 / 25%);
+    color-scheme: dark;
+  }
+}
+
+/* Chart colors, validated with the dataviz palette checks against the card
+   surfaces (#ffffff light, #1d1b29 dark). Tiers are an ordinal ramp of the brand
+   purple: tier A is the strongest step in each mode. Activity types use the
+   reference categorical order. Status colors are reserved for state. */
+:root {
+  --viz-accent: #675dff;
+  --viz-grid: #ece7e2;
+  --viz-axis: #d9d2d2;
+  --tier-1: #3f309e;
+  --tier-2: #5d55c6;
+  --tier-3: #7e7aef;
+  --tier-4: #a2a0ff;
+  --cat-1: #2a78d6;
+  --cat-2: #eb6834;
+  --cat-3: #1baf7a;
+  --cat-4: #eda100;
+  --cat-5: #e87ba4;
+  --cat-6: #008300;
+  --status-good: #0ca30c;
+  --status-warning: #fab219;
+  --status-serious: #ec835a;
+  --status-critical: #d03b3b;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --viz-accent: #8077ff;
+    --viz-grid: #2c2a38;
+    --viz-axis: #403b50;
+    --tier-1: #bcbdff;
+    --tier-2: #9797ff;
+    --tier-3: #7471d6;
+    --tier-4: #534dae;
+    --cat-1: #3987e5;
+    --cat-2: #d95926;
+    --cat-3: #199e70;
+    --cat-4: #c98500;
+    --cat-5: #d55181;
+    --cat-6: #008300;
+  }
+}
