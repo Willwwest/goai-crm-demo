@@ -1,16 +1,16 @@
-import { resetDemo } from './lib/demo-api.mjs';
-import { html, render, useState, useEffect, useRef } from './vendor/preact-htm.js';
-import { useRoute, Icon, Toasts, StageBadge, navigate } from './lib/ui.js';
-import { api } from './lib/api.js';
-import { BRAND, personName } from './schema.js';
-import { Today } from './views/today.js';
-import { Pipeline } from './views/pipeline.js';
-import { RecordList } from './views/list.js';
-import { RecordPage } from './views/record.js';
-import { Tasks } from './views/tasks.js';
-import { Settings } from './views/settings.js';
-import { Insights } from './views/insights.js';
-import { QuickAdd, openNew } from './views/quickadd.js';
+import { resetDemo } from './lib/demo-api.mjs?v=ae938a762063';
+import { html, render, useState, useEffect, useRef } from './vendor/preact-htm.js?v=ae938a762063';
+import { useRoute, Icon, Toasts, StageBadge, navigate } from './lib/ui.js?v=ae938a762063';
+import { api } from './lib/api.js?v=ae938a762063';
+import { BRAND, personName } from './schema.js?v=ae938a762063';
+import { Today } from './views/today.js?v=ae938a762063';
+import { Pipeline } from './views/pipeline.js?v=ae938a762063';
+import { RecordList } from './views/list.js?v=ae938a762063';
+import { RecordPage } from './views/record.js?v=ae938a762063';
+import { Tasks } from './views/tasks.js?v=ae938a762063';
+import { Settings } from './views/settings.js?v=ae938a762063';
+import { Insights } from './views/insights.js?v=ae938a762063';
+import { QuickAdd, openNew } from './views/quickadd.js?v=ae938a762063';
 
 const NAV = [
   ['', 'Today', 'home'],

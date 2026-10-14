@@ -1,6 +1,6 @@
-import { html, useState, useEffect, Modal, CompanyPicker, toast, changed, navigate } from '../lib/ui.js';
-import { api } from '../lib/api.js';
-import { ENTITIES, STAGES } from '../schema.js';
+import { html, useState, useEffect, Modal, CompanyPicker, toast, changed, navigate } from '../lib/ui.js?v=ae938a762063';
+import { api } from '../lib/api.js?v=ae938a762063';
+import { ENTITIES, STAGES } from '../schema.js?v=ae938a762063';
 
 let open = () => {};
 // Opens the create dialog for 'people', 'companies' or 'tasks', with optional defaults.

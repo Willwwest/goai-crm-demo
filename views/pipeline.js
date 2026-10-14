@@ -1,6 +1,6 @@
-import { html, useState, useEffect, useRef, useCallback, useChanged, Loading, ErrorBox, Icon, Modal, TierChip, toast, changed, navigate, fmtDate, fmtAgo, dueClass } from '../lib/ui.js';
-import { api } from '../lib/api.js';
-import { STAGES } from '../schema.js';
+import { html, useState, useEffect, useRef, useCallback, useChanged, Loading, ErrorBox, Icon, Modal, TierChip, toast, changed, navigate, fmtDate, fmtAgo, dueClass } from '../lib/ui.js?v=ae938a762063';
+import { api } from '../lib/api.js?v=ae938a762063';
+import { STAGES } from '../schema.js?v=ae938a762063';
 
 async function loadPipeline() {
   const rows = [];

@@ -1,8 +1,8 @@
-import { html, useState, useApi, useChanged, Loading, ErrorBox, Icon, toast, changed, fmtDate, dueClass, localDay } from '../lib/ui.js';
-import { api } from '../lib/api.js';
-import { personName } from '../schema.js';
-import { OutcomeButtons, businessDaysAfter } from '../lib/actions.js';
-import { openNew } from './quickadd.js';
+import { html, useState, useApi, useChanged, Loading, ErrorBox, Icon, toast, changed, fmtDate, dueClass, localDay } from '../lib/ui.js?v=ae938a762063';
+import { api } from '../lib/api.js?v=ae938a762063';
+import { personName } from '../schema.js?v=ae938a762063';
+import { OutcomeButtons, businessDaysAfter } from '../lib/actions.js?v=ae938a762063';
+import { openNew } from './quickadd.js?v=ae938a762063';
 
 // One task: check it off, push it, or open it to log what happened.
 function TaskRow({ task, today, reload }) {

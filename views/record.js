@@ -1,8 +1,8 @@
-import { html, useState, useApi, useChanged, Loading, ErrorBox, Icon, StageBadge, TierChip, FieldEditor, CompanyPicker, TaskItem, ACTIVITY_ICONS, toast, changed, navigate, fmtDate, fmtAgo, initials, localDay } from '../lib/ui.js';
-import { api } from '../lib/api.js';
-import { ENTITIES, STAGES, personName } from '../schema.js';
-import { ActionPanel, ContactButtons, Snooze, bestBuyer, draftFor, pendingDemo, rankBuyers, replyWaiting, suggestNext, usePlan } from '../lib/actions.js';
-import { openNew } from './quickadd.js';
+import { html, useState, useApi, useChanged, Loading, ErrorBox, Icon, StageBadge, TierChip, FieldEditor, CompanyPicker, TaskItem, ACTIVITY_ICONS, toast, changed, navigate, fmtDate, fmtAgo, initials, localDay } from '../lib/ui.js?v=ae938a762063';
+import { api } from '../lib/api.js?v=ae938a762063';
+import { ENTITIES, STAGES, personName } from '../schema.js?v=ae938a762063';
+import { ActionPanel, ContactButtons, Snooze, bestBuyer, draftFor, pendingDemo, rankBuyers, replyWaiting, suggestNext, usePlan } from '../lib/actions.js?v=ae938a762063';
+import { openNew } from './quickadd.js?v=ae938a762063';
 
 const OPEN_STAGES = STAGES.filter((s) => !['nurture', 'lost', 'disqualified'].includes(s.value));
 const CLOSED_STAGES = STAGES.filter((s) => ['nurture', 'lost', 'disqualified'].includes(s.value));

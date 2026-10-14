@@ -1,11 +1,11 @@
 // Today: the command center for the 60-day plan. The demo goal and the pace it needs at the
 // top, the one next move in the middle, the accounts closest to a demo and the AI tools
 // beside it. Everything here exists to turn the pipeline into booked and held demos.
-import { html, useState, useEffect, useApi, useChanged, Loading, ErrorBox, StageBadge, TierChip, Icon, Modal, ACTIVITY_ICONS, toast, fmtDate, fmtAgo, fmtCount, localDay, navigate } from '../lib/ui.js';
-import { api } from '../lib/api.js';
-import { STAGES, PLAN_LABELS, stageColor, personName } from '../schema.js';
-import { ActionPanel, Snooze, refreshPlan, addDays, dayLabel } from '../lib/actions.js';
-import { AiStatus, AiButton, aiCall, BriefModal, ReplyModal, NotesModal, BatchModal } from '../lib/ai.js';
+import { html, useState, useEffect, useApi, useChanged, Loading, ErrorBox, StageBadge, TierChip, Icon, Modal, ACTIVITY_ICONS, toast, fmtDate, fmtAgo, fmtCount, localDay, navigate } from '../lib/ui.js?v=ae938a762063';
+import { api } from '../lib/api.js?v=ae938a762063';
+import { STAGES, PLAN_LABELS, stageColor, personName } from '../schema.js?v=ae938a762063';
+import { ActionPanel, Snooze, refreshPlan, addDays, dayLabel } from '../lib/actions.js?v=ae938a762063';
+import { AiStatus, AiButton, aiCall, BriefModal, ReplyModal, NotesModal, BatchModal } from '../lib/ai.js?v=ae938a762063';
 
 // ---- Pace -------------------------------------------------------------------------------
 

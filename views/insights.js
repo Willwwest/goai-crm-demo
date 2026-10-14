@@ -1,8 +1,8 @@
-import { useMemo } from '../vendor/preact-htm.js';
-import { html, useState, useEffect, useApi, useChanged, Loading, ErrorBox, StageBadge, TierChip, Icon, Modal, toast, changed, fmtDate, fmtAgo, fmtCount, localDay, navigate } from '../lib/ui.js';
-import { api } from '../lib/api.js';
-import { ENTITIES, STAGES, ACTIVITY_TYPES, ROLE_GROUPS, VISIT_AREAS, VISIT_PRIORITY, stageLabel, visitScore } from '../schema.js';
-import { BarRows, Columns, ChartCard, StatTile, Meter, DataTable, GeoBubbleMap } from '../lib/charts.js';
+import { useMemo } from '../vendor/preact-htm.js?v=ae938a762063';
+import { html, useState, useEffect, useApi, useChanged, Loading, ErrorBox, StageBadge, TierChip, Icon, Modal, toast, changed, fmtDate, fmtAgo, fmtCount, localDay, navigate } from '../lib/ui.js?v=ae938a762063';
+import { api } from '../lib/api.js?v=ae938a762063';
+import { ENTITIES, STAGES, ACTIVITY_TYPES, ROLE_GROUPS, VISIT_AREAS, VISIT_PRIORITY, stageLabel, visitScore } from '../schema.js?v=ae938a762063';
+import { BarRows, Columns, ChartCard, StatTile, Meter, DataTable, GeoBubbleMap } from '../lib/charts.js?v=ae938a762063';
 
 // Tiers are ordinal: one hue, tier A strongest. Accounts without a tier use the muted gray.
 const TIERS = [

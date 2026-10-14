@@ -1,7 +1,7 @@
-import { html, useState, useEffect, useChanged, ErrorBox, Loading, Icon, StageBadge, TierChip, navigate, fmtAgo, fmtCount, toast, changed } from '../lib/ui.js';
-import { api, qs } from '../lib/api.js';
-import { ENTITIES, STAGES, personName } from '../schema.js';
-import { openNew } from './quickadd.js';
+import { html, useState, useEffect, useChanged, ErrorBox, Loading, Icon, StageBadge, TierChip, navigate, fmtAgo, fmtCount, toast, changed } from '../lib/ui.js?v=ae938a762063';
+import { api, qs } from '../lib/api.js?v=ae938a762063';
+import { ENTITIES, STAGES, personName } from '../schema.js?v=ae938a762063';
+import { openNew } from './quickadd.js?v=ae938a762063';
 
 const PAGE = 100;
 
