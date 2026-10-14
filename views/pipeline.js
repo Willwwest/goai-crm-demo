@@ -132,6 +132,8 @@ export function Pipeline() {
   const [showClosed, setShowClosed] = useState(false);
   const [adding, setAdding] = useState(false);
   const [expanded, setExpanded] = useState({});
+  const [phoneStage, setPhoneStage] = useState('research');
+  useEffect(() => { if (!showClosed && !OPEN.some((s) => s.value === phoneStage)) setPhoneStage('research'); }, [showClosed,phoneStage]);
   const reload = useCallback(() => loadPipeline().then(setRows, setError), []);
   useEffect(() => { reload(); }, [reload]);
   useChanged(reload);
@@ -162,11 +164,14 @@ export function Pipeline() {
       <button class="btn primary" onClick=${() => setAdding(true)}><${Icon} name="plus" size=${16} /> Add accounts</button>
     </div>
     ${!rows.length ? html`<div class="card"><div class="empty">The pipeline is empty. <button class="btn primary small" onClick=${() => setAdding(true)}>Add your best-fit accounts</button></div></div>` : html`
+    <div class="phone-stage-picker"><label for="pipeline-stage">Pipeline stage</label><select class="input" id="pipeline-stage" value=${phoneStage} onChange=${(e) => setPhoneStage(e.target.value)}>
+      ${stages.map((s) => html`<option value=${s.value}>${s.label} (${rows.filter((c) => c.stage === s.value).length})</option>`)}
+    </select></div>
     <div class=${`board ${showClosed ? 'with-closed' : ''}`}>
       ${stages.map((stage) => {
         const cards = rows.filter((c) => c.stage === stage.value).sort(byPriority);
         const limit = expanded[stage.value] ? cards.length : 12;
-        return html`<section class=${`column ${cards.length ? '' : 'empty'}`} data-stage=${stage.value} key=${stage.value}
+        return html`<section class=${`column ${cards.length ? '' : 'empty'} ${stage.value === phoneStage ? 'phone-active' : ''}`} data-stage=${stage.value} key=${stage.value}
             title=${cards.length ? null : `No accounts in ${stage.label}. Drag a card here or use its advance button.`}>
           <header><span class="badge" style=${`--c:${stage.color}`}>${stage.label}</span><span class="n">${cards.length}</span></header>
           <div class="cards">

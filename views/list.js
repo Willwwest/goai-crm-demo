@@ -39,7 +39,7 @@ function companyColumns(addOne) {
 
 function peopleColumns(view) {
   return [
-    { label: 'Name', sort: 'name', render: (r) => personName(r) },
+    { label: 'Name', sort: 'name', render: (r) => html`<a href=${`#/people/${r.id}`}>${personName(r)}</a><span class="tablet-title">${r.title ?? ''}</span>` },
     { label: 'Title', sort: 'title', render: (r) => r.title ?? '' },
     { label: 'Lead score', sort: 'lead_score', render: (r) => r.lead_score ?? '—' },
     { label: 'Company', sort: 'company_fit', render: (r) => (r.company_name ? html`<span class="row nowrap"><${TierChip} tier=${r.company_tier} /><span class="ellipsis">${r.company_name}</span></span>` : '') },
@@ -114,7 +114,7 @@ export function RecordList({ kind, query }) {
   const toggle = (id) => setSelected((s) => { const n = new Set(s); n.has(id) ? n.delete(id) : n.add(id); return n; });
   const addable = [...selected].filter((id) => !rows.find((r) => r.id === id)?.stage);
 
-  return html`<div>
+  return html`<div class=${`records-page records-${kind}`}>
     <div class="page-head list-head">
       <div class="grow"><h1>${def.label}</h1></div>
       <button class="btn primary" onClick=${() => openNew(kind)}><${Icon} name="plus" size=${16} /> New ${def.singular.toLowerCase()}</button>
@@ -122,6 +122,14 @@ export function RecordList({ kind, query }) {
     <div class="view-tabs" role="tablist">
       ${views.map((v) => html`<button role="tab" aria-selected=${v.key === view.key} class=${v.key === view.key ? 'on' : ''} onClick=${() => switchView(v)}>
         ${v.label}${counts[v.key] != null && html`<span class="count">${fmtCount(counts[v.key])}</span>`}</button>`)}
+    </div>
+    <div class="mobile-list-controls">
+      <label>View<select class="input" aria-label=${`${def.label} view`} value=${view.key} onChange=${(e) => switchView(views.find((v) => v.key === e.target.value))}>
+        ${views.map((v) => html`<option value=${v.key}>${v.label}${counts[v.key] != null ? ` (${fmtCount(counts[v.key])})` : ''}</option>`)}
+      </select></label>
+      <label>Sort by<select class="input" aria-label="Sort records by" value=${`${sort.key}:${sort.dir}`} onChange=${(e) => {const [key,dir]=e.target.value.split(':');setSort({key,dir});}}>
+        ${columns.filter((c) => c.sort).map((c) => ['desc','asc'].map((dir) => html`<option value=${`${c.sort}:${dir}`}>${c.label} ${dir === 'desc' ? '↓' : '↑'}</option>`))}
+      </select></label>
     </div>
     <div class="toolbar">
       <div class="search"><${Icon} name="search" size=${16} /><input class="input" type="search" placeholder=${`Search ${def.label.toLowerCase()}`} value=${text} onInput=${(e) => setText(e.target.value)} /></div>
@@ -133,19 +141,39 @@ export function RecordList({ kind, query }) {
       ${data && html`<span class="muted small">${fmtCount(data.total)} ${data.total === 1 ? def.singular.toLowerCase() : def.label.toLowerCase()}</span>`}
     </div>
     ${error ? html`<${ErrorBox} error=${error} onRetry=${() => load(0)} />` : !data ? html`<${Loading} />` : html`<div class=${`card ${busy ? 'is-loading' : ''}`}>
-      <div class="table-wrap"><table class="data">
+      <div class="table-wrap records-table"><table class="data">
         <thead><tr>
           ${selectable && html`<th class="check-col"><input type="checkbox" aria-label="Select all on this page" checked=${allChecked}
             onChange=${() => setSelected(allChecked ? new Set() : new Set(rows.map((r) => r.id)))} /></th>`}
-          ${columns.map((c, i) => html`<th class=${`${c.sort ? 'sortable' : ''} ${i > 3 ? 'optional' : ''}`} onClick=${() => toggleSort(c)}>${c.label}${sort.key === c.sort && html`<span class="dir">${sort.dir === 'asc' ? '↑' : '↓'}</span>`}</th>`)}
+          ${columns.map((c, i) => html`<th class=${`col-${c.sort ?? 'reach'} ${c.sort ? 'sortable' : ''} ${i > 3 ? 'optional' : ''}`} aria-sort=${sort.key === c.sort ? (sort.dir === 'asc' ? 'ascending' : 'descending') : undefined}>${c.sort ? html`<button class="table-sort" onClick=${() => toggleSort(c)}>${c.label}${sort.key === c.sort && html`<span class="dir">${sort.dir === 'asc' ? '↑' : '↓'}</span>`}</button>` : c.label}</th>`)}
         </tr></thead>
         <tbody>
-          ${rows.map((row) => html`<tr key=${row.id} class=${selected.has(row.id) ? 'selected' : ''} onClick=${() => navigate(`/${kind}/${row.id}`)}>
+          ${rows.map((row) => html`<tr key=${row.id} class=${selected.has(row.id) ? 'selected' : ''} onClick=${(e) => !e.target.closest('a,button,input') && navigate(`/${kind}/${row.id}`)}>
             ${selectable && html`<td class="check-col" onClick=${stop}><input type="checkbox" aria-label=${`Select ${row.name}`} checked=${selected.has(row.id)} onChange=${() => toggle(row.id)} /></td>`}
-            ${columns.map((c, i) => html`<td class=${`${i === 0 ? 'primary' : ''} ${i > 3 ? 'optional' : ''}`}>${c.render(row)}</td>`)}
+            ${columns.map((c, i) => html`<td class=${`col-${c.sort ?? 'reach'} ${i === 0 ? 'primary' : ''} ${i > 3 ? 'optional' : ''}`}>${i === 0 && kind === 'companies' ? html`<a href=${`#/companies/${row.id}`}>${c.render(row)}</a>` : c.render(row)}</td>`)}
           </tr>`)}
         </tbody>
       </table></div>
+      <div class="mobile-records">
+        ${rows.map((r) => html`<article class=${`mobile-record ${selected.has(r.id) ? 'selected' : ''}`} key=${r.id}>
+          ${selectable && html`<label class="mobile-selection"><input type="checkbox" aria-label=${`Select ${r.name}`} checked=${selected.has(r.id)} onChange=${() => toggle(r.id)} /><span>Select</span></label>`}
+          <div class="mobile-record-head">
+            <a class="mobile-record-link" href=${`#/${kind}/${r.id}`}><${TierChip} tier=${kind === 'people' ? r.company_tier : r.tier} /><strong>${kind === 'people' ? personName(r) : r.name}</strong></a>
+            <span class="mobile-score"><span>${kind === 'people' ? 'Lead score' : 'Priority'}</span><strong>${(kind === 'people' ? r.lead_score : r.priority) ?? '—'}</strong></span>
+          </div>
+          ${kind === 'people' ? html`<p class="mobile-record-title">${r.title || 'Title not available'}</p>
+            ${r.company_name && html`<a class="mobile-company" href=${`#/companies/${r.company_id}`}>${r.company_name}</a>`}
+            <div class="mobile-record-actions"><a class="btn small" href=${`#/people/${r.id}`}>View lead</a>
+              ${r.email && html`<a class="btn small" href=${`mailto:${r.email}`} aria-label=${`Email ${personName(r)}`}><${Icon} name="mail" size=${16} /> Email</a>`}
+              ${r.phone && html`<a class="btn small" href=${`tel:${r.phone}`} aria-label=${`Call ${personName(r)}`}><${Icon} name="phone" size=${16} /> Call</a>`}
+              ${r.linkedin_url && html`<a class="btn small" href=${r.linkedin_url} target="_blank" rel="noopener noreferrer">LinkedIn</a>`}
+            </div>` : html`<p class="mobile-record-title">${[r.segment,r.city,r.state].filter(Boolean).join(' · ')}</p>
+            <div class="mobile-record-actions"><${StageBadge} stage=${r.stage} />
+              ${!r.stage && html`<button class="btn small" onClick=${() => addToPipeline([r.id])}><${Icon} name="plus" size=${16} /> Add to pipeline</button>`}
+              <a class="btn small" href=${`#/companies/${r.id}`}>View account</a>
+            </div>`}
+        </article>`)}
+      </div>
       ${!rows.length && html`<div class="empty">${search || Object.values(filters).some(Boolean) ? `No ${def.label.toLowerCase()} match these filters.` : view.empty}</div>`}
       ${rows.length < data.total && html`<div class="list-foot">
         <span class="muted small">Showing ${fmtCount(rows.length)} of ${fmtCount(data.total)}</span>

@@ -83,6 +83,13 @@ function DailyGoal({ data }) {
 }
 
 function Mission({ data, onPlan }) {
+  const [weeklyOpen, setWeeklyOpen] = useState(() => matchMedia('(min-width:700px)').matches);
+  useEffect(() => {
+    const media = matchMedia('(min-width:700px)');
+    const update = () => setWeeklyOpen(media.matches);
+    media.addEventListener('change',update);
+    return () => media.removeEventListener('change',update);
+  },[]);
   const { plan, progress, week, today } = data;
   const m = demoMath(data);
   const end = plan.start ? addDays(plan.start, plan.days - 1) : null;
@@ -101,8 +108,8 @@ function Mission({ data, onPlan }) {
       <${GoalMeter} m=${m} />
       <div class="small muted">${when}</div>
     </div>
-    <div class="m-week">
-      <div class="m-label">This week</div>
+    <details class="m-week" open=${weeklyOpen} onToggle=${(e) => setWeeklyOpen(e.currentTarget.open)}>
+      <summary class="m-label">This week <span class="week-summary">${fmtCount(week.touches)} touches · ${fmtCount(week.booked)} booked</span></summary>
       ${weekRows.map(([k, label]) => {
         const p = progress.started && plan.saved ? pace(week[k], plan.weekly[k], share) : null;
         return html`<div class="m-row" key=${k}>
@@ -111,7 +118,7 @@ function Mission({ data, onPlan }) {
           <${Meter} value=${week[k]} max=${plan.weekly[k]} label=${label} />
         </div>`;
       })}
-    </div>
+    </details>
     <${DailyGoal} data=${data} />
     <p class="m-need">${m.remaining === 0
       ? 'Demos held and booked cover the goal. Keep first touches going so the next stretch is full too.'

@@ -46,7 +46,7 @@ function GlobalSearch() {
   const companyCount = results?.companies.length ?? 0;
   return html`<div class="search">
     <${Icon} name="search" size=${16} />
-    <input ref=${input} class="input" type="search" placeholder="Search companies and people" value=${text}
+    <input ref=${input} class="input" type="search" placeholder="Search CRM" value=${text}
       onInput=${(e) => { setText(e.target.value); setOpen(true); }} onFocus=${() => setOpen(true)}
       onBlur=${() => setTimeout(() => setOpen(false), 150)} onKeyDown=${onKeyDown} aria-label="Search" />
     ${open && results && html`<div class="search-results">
@@ -70,8 +70,8 @@ function NewMenu() {
     return () => removeEventListener('click', close);
   }, [open]);
   const pick = (kind) => { setOpen(false); openNew(kind); };
-  return html`<div style="position:relative">
-    <button class="btn primary" onClick=${() => setOpen(!open)} aria-haspopup="menu" aria-expanded=${open}><${Icon} name="plus" size=${16} /><span class="new-label">New</span></button>
+  return html`<div class="new-menu" style="position:relative">
+    <button class="btn primary" onClick=${() => setOpen(!open)} aria-label="New record" aria-haspopup="menu" aria-expanded=${open}><${Icon} name="plus" size=${16} /><span class="new-label">New</span></button>
     ${open && html`<div class="menu" role="menu">
       <button role="menuitem" onClick=${() => pick('people')}><${Icon} name="users" size=${16} /> Person</button>
       <button role="menuitem" onClick=${() => pick('companies')}><${Icon} name="building" size=${16} /> Company</button>
@@ -93,7 +93,7 @@ function App() {
   else if (section === 'settings') page = html`<${Settings} />`;
   else if (section === 'insights') page = html`<${Insights} key=${query.tab ?? ''} query=${query} />`;
   else page = html`<div class="card"><div class="empty">Page not found. <a href="#/">Go to Today</a></div></div>`;
-  const link = ([path, label, icon]) => html`<a href=${`#/${path}`} class=${section === path ? 'active' : ''} title=${label} aria-label=${label}><${Icon} name=${icon} /> <span>${label}</span></a>`;
+  const link = ([path, label, icon]) => html`<a href=${`#/${path}`} class=${section === path ? 'active' : ''} aria-current=${section === path ? 'page' : undefined} title=${label} aria-label=${label}><${Icon} name=${icon} /> <span>${label}</span></a>`;
   return html`<div class="shell">
     <aside class="sidebar">
       <a class="logo" href="#/" aria-label=${BRAND.name}><img src="./brand/logo-on-dark.png" alt=${BRAND.short} /></a>
@@ -103,15 +103,17 @@ function App() {
     <div class="main">
       <header class="topbar">
         <a class="mobile-logo" href="#/" aria-label=${BRAND.name}><img src="./brand/logo-on-dark.png" alt=${BRAND.short} /></a>
-        <${GlobalSearch} />
-        <span class="spacer" />
         <${NewMenu} />
         <a class="btn ghost icon mobile-only" href="#/settings" aria-label="Settings"><${Icon} name="settings" /></a>
+        <${GlobalSearch} />
       </header>
       <div class="demo-banner" role="region" aria-label="Demo mode"><div><strong>Demo mode</strong><span>100 fictional leads · Edits stay in this browser tab</span></div><button class="btn small" onClick=${resetDemo}>Reset demo</button></div>
       <main class=${`content ${section === 'pipeline' ? 'wide' : ''}`}>${page}</main>
     </div>
-    <nav class="tabbar">${NAV.map(link)}</nav>
+    <nav class="tabbar" aria-label="Primary navigation">
+      ${NAV.filter(([path]) => !['companies','insights'].includes(path)).map(link)}
+      <details class="mobile-more" key=${section}><summary aria-label="More navigation"><${Icon} name="more" /><span>More</span></summary><div class="mobile-more-menu">${[...NAV.filter(([path]) => ['companies','insights'].includes(path)),['settings','Settings','settings']].map(link)}</div></details>
+    </nav>
     <${QuickAdd} />
     <${Toasts} />
   </div>`;
